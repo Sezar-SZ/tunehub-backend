@@ -7,6 +7,8 @@ import { PrismaService } from "./prisma/prisma.service";
 import { PrismaModule } from "./prisma/prisma.module";
 import { AuthModule } from "./auth/auth.module";
 import { RedisModule } from "./redis/redis.module";
+import { SongsModule } from './songs/songs.module';
+import { DeezerService } from './deezer/deezer.service';
 import Config from "./config/ConfigSchema";
 
 @Module({
@@ -19,8 +21,9 @@ import Config from "./config/ConfigSchema";
         }),
         AuthModule,
         RedisModule,
+        SongsModule,
     ],
     controllers: [AppController],
-    providers: [AppService, PrismaService],
+    providers: [AppService, PrismaService, DeezerService],
 })
 export class AppModule {}

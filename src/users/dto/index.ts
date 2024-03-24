@@ -4,6 +4,7 @@ import { Role } from "@prisma/client";
 const UserModel = z.object({
     id: z.number().int(),
     email: z.string().email(),
+    username: z.string(),
     password: z.string(),
     role: z.nativeEnum(Role),
 });

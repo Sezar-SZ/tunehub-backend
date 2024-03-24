@@ -20,8 +20,20 @@ export class RedisService {
         await this.redisClient.disconnect();
     }
 
-    async set({ key, value, time }) {
-        await this.redisClient.set(key, value, { EX: time });
+    async set({
+        key,
+        value,
+        time,
+    }: {
+        key: string;
+        value: any;
+        time?: number;
+    }) {
+        if (!time) {
+            await this.redisClient.set(key, value);
+        } else {
+            await this.redisClient.set(key, value, { EX: time });
+        }
     }
 
     async get(key) {

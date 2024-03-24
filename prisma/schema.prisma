@@ -11,10 +11,56 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  role     Role   @default(USER)
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  username     String         @unique
+  password     String
+  role         Role           @default(USER)
+  Playlist     Playlist[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  likePlaylist likePlaylist[]
+}
+
+model Playlist {
+  id            String          @id @default(dbgenerated("nanoid()")) @db.VarChar(11)
+  name          String
+  creator       User            @relation(fields: [creatorId], references: [id])
+  creatorId     Int
+  published     Boolean
+  PlaylistTrach PlaylistTrach[]
+  likePlaylist  likePlaylist[]
+}
+
+model Song {
+  id            Int             @id @default(autoincrement())
+  title         String
+  preview       String?
+  artist        String?
+  cover         String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  PlaylistTrach PlaylistTrach[]
+}
+
+model PlaylistTrach {
+  id         Int      @id @default(autoincrement())
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId String   @db.VarChar(11)
+  song       Song     @relation(fields: [songId], references: [id])
+  songId     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model likePlaylist {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId String   @db.VarChar(11)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 enum Role {

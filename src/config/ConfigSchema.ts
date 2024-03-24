@@ -13,6 +13,7 @@ const ConfigSchema = z.object({
     ACCESS_EXPIRATION: z.string(),
     REFRESH_EXPIRATION: z.string(),
     ADMIN_EMAIL: z.string().email(),
+    ADMIN_USERNAME: z.string(),
     ADMIN_PASSWORD: z.string(),
     DB_USER: z.string(),
     DB_PASSWORD: z.string(),

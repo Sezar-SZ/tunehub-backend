@@ -9,6 +9,7 @@ async function main() {
         update: {},
         create: {
             email: process.env.ADMIN_EMAIL,
+            username: process.env.ADMIN_USERNAME,
             password: hashedPassword,
             role: "ADMIN",
         },

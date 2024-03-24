@@ -11,7 +11,6 @@ import { UsersService } from "../users/users.service";
 import { LoginDto } from "./dto";
 import { CreateUserDto } from "src/users/dto";
 import { ConfigService } from "@nestjs/config";
-import { Role } from "@prisma/client";
 import { refreshExpireDate } from "src/utils";
 import { RedisService } from "src/redis/redis.service";
 

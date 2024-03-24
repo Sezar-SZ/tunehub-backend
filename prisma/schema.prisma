@@ -34,6 +34,7 @@ model Playlist {
 
 model Song {
   id            Int             @id @default(autoincrement())
+  externalID    String
   title         String
   preview       String?
   artist        String?

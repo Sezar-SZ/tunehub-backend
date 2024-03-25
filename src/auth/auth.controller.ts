@@ -35,13 +35,13 @@ export class AuthController {
         return await this.authService.login(loginDto, response);
     }
 
-    @Post("signup")
+    @Post("register")
     @UsePipes(new ZodValidationPipe(createUserSchema))
-    signup(
+    register(
         @Body() createUserDto: CreateUserDto,
         @Res({ passthrough: true }) response: Response
     ) {
-        return this.authService.signUp(createUserDto, response);
+        return this.authService.register(createUserDto, response);
     }
 
     @Post("logout")

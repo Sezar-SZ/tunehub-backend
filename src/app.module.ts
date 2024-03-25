@@ -9,6 +9,7 @@ import { AuthModule } from "./auth/auth.module";
 import { RedisModule } from "./redis/redis.module";
 import { SongsModule } from './songs/songs.module';
 import { DeezerService } from './deezer/deezer.service';
+import { PlaylistsModule } from './playlists/playlists.module';
 import Config from "./config/ConfigSchema";
 
 @Module({
@@ -22,6 +23,7 @@ import Config from "./config/ConfigSchema";
         AuthModule,
         RedisModule,
         SongsModule,
+        PlaylistsModule,
     ],
     controllers: [AppController],
     providers: [AppService, PrismaService, DeezerService],

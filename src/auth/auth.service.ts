@@ -23,7 +23,7 @@ export class AuthService {
         private redisService: RedisService
     ) {}
 
-    async signUp(createUserDto: CreateUserDto, response: Response) {
+    async register(createUserDto: CreateUserDto, response: Response) {
         try {
             const newUser = await this.userService.create(createUserDto);
             const tokens = await this.getTokens(newUser.id, newUser.email);

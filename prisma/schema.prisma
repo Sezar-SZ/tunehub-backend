@@ -28,23 +28,23 @@ model Playlist {
   creator       User            @relation(fields: [creatorId], references: [id])
   creatorId     Int
   published     Boolean
-  PlaylistTrach PlaylistTrach[]
+  playlistTrack PlaylistTrack[]
   likePlaylist  likePlaylist[]
 }
 
 model Song {
   id            Int             @id @default(autoincrement())
-  externalID    String
+  externalID    String          @unique
   title         String
   preview       String?
   artist        String?
   cover         String?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  PlaylistTrach PlaylistTrach[]
+  playlistTrack PlaylistTrack[]
 }
 
-model PlaylistTrach {
+model PlaylistTrack {
   id         Int      @id @default(autoincrement())
   playlist   Playlist @relation(fields: [playlistId], references: [id])
   playlistId String   @db.VarChar(11)

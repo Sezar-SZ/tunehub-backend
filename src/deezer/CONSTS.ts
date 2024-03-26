@@ -1,3 +1,4 @@
 export default {
-    url: "https://api.deezer.com/search?q=",
+    searchUrl: "https://api.deezer.com/search?q=",
+    findByIdUrl: "https://api.deezer.com/track/",
 };

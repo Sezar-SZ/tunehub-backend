@@ -25,7 +25,7 @@ model User {
 model Playlist {
   id            String          @id @default(dbgenerated("nanoid()")) @db.VarChar(11)
   name          String
-  creator       User            @relation(fields: [creatorId], references: [id])
+  creator       User            @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId     Int
   published     Boolean
   playlistTrack PlaylistTrack[]
@@ -46,9 +46,9 @@ model Song {
 
 model PlaylistTrack {
   id         Int      @id @default(autoincrement())
-  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
   playlistId String   @db.VarChar(11)
-  song       Song     @relation(fields: [songId], references: [id])
+  song       Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
   songId     Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -56,9 +56,9 @@ model PlaylistTrack {
 
 model likePlaylist {
   id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
-  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
   playlistId String   @db.VarChar(11)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

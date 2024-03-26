@@ -8,6 +8,8 @@ import {
     UsePipes,
     UseGuards,
     Req,
+    HttpCode,
+    HttpStatus,
 } from "@nestjs/common";
 import { ZodValidationPipe } from "src/validators/zod.validator";
 import { PlaylistsService } from "./playlists.service";
@@ -28,6 +30,36 @@ export class PlaylistsController {
     @Get(":id")
     findOne(@Param("id") id: string) {
         return this.playlistsService.findOne(id);
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(AccessTokenGuard)
+    @Post(":playlistId/track/:songExternalId")
+    addSong(
+        @Req() req,
+        @Param("playlistId") playlistId: string,
+        @Param("songExternalId") songExternalId: string
+    ) {
+        return this.playlistsService.addSong(
+            req.user.sub,
+            playlistId,
+            songExternalId
+        );
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(AccessTokenGuard)
+    @Delete(":playlistId/track/:playlistTrackId")
+    removeSong(
+        @Req() req,
+        @Param("playlistId") playlistId: string,
+        @Param("playlistTrackId") playlistTrackId: number
+    ) {
+        return this.playlistsService.removeSong(
+            req.user.sub,
+            playlistId,
+            playlistTrackId
+        );
     }
 
     @UseGuards(AccessTokenGuard)

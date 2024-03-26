@@ -20,6 +20,23 @@ export class PlaylistsService {
         return playlist;
     }
 
+    async findAllByUser(userId: number) {
+        const playlists = await this.prismaService.user.findUnique({
+            where: { id: userId },
+            select: {
+                Playlist: {
+                    select: {
+                        name: true,
+                        id: true,
+                        published: true,
+                        playlistTrack: true,
+                    },
+                },
+            },
+        });
+        return playlists;
+    }
+
     async findOne(id: string) {
         try {
             const playlist =

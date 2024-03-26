@@ -1,14 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreatePlaylistDto } from "./dto/create";
 import { PrismaService } from "src/prisma/prisma.service";
-import { SongsService } from "src/songs/songs.service";
 
 @Injectable()
 export class PlaylistsService {
-    constructor(
-        private prismaService: PrismaService,
-        private songService: SongsService
-    ) {}
+    constructor(private prismaService: PrismaService) {}
     async create(userId: number, dto: CreatePlaylistDto) {
         const playlist = await this.prismaService.playlist.create({
             data: {
@@ -60,50 +56,6 @@ export class PlaylistsService {
             where: {
                 id: playListId,
                 creatorId: userId,
-            },
-        });
-        return playlist;
-    }
-
-    async addSong(userId: number, playlistId: string, songExternalId: string) {
-        const song = await this.songService.create(songExternalId);
-        await this.prismaService.playlist.update({
-            where: {
-                id: playlistId,
-                creatorId: userId,
-            },
-            data: {
-                playlistTrack: {
-                    create: {
-                        song: {
-                            connect: {
-                                id: song.id,
-                            },
-                        },
-                    },
-                },
-            },
-        });
-
-        return song;
-    }
-
-    async removeSong(
-        userId: number,
-        playlistId: string,
-        playlistTrackId: number
-    ) {
-        const playlist = await this.prismaService.playlist.update({
-            where: {
-                id: playlistId,
-                creatorId: userId,
-            },
-            data: {
-                playlistTrack: {
-                    delete: {
-                        id: +playlistTrackId,
-                    },
-                },
             },
         });
         return playlist;

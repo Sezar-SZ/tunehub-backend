@@ -15,10 +15,14 @@ import { ZodValidationPipe } from "src/validators/zod.validator";
 import { PlaylistsService } from "./playlists.service";
 import { CreatePlaylistDto, createPlaylistSchema } from "./dto/create";
 import { AccessTokenGuard } from "src/auth/guards/accessToken.guard";
+import { TracksService } from "src/tracks/tracks.service";
 
 @Controller("playlists")
 export class PlaylistsController {
-    constructor(private readonly playlistsService: PlaylistsService) {}
+    constructor(
+        private readonly playlistsService: PlaylistsService,
+        private readonly tracksService: TracksService
+    ) {}
 
     @Post()
     @UseGuards(AccessTokenGuard)
@@ -38,6 +42,12 @@ export class PlaylistsController {
         return this.playlistsService.findOne(id);
     }
 
+    @UseGuards(AccessTokenGuard)
+    @Delete(":id")
+    remove(@Req() req, @Param("id") id: string) {
+        return this.playlistsService.remove(req.user.sub, id);
+    }
+
     @HttpCode(HttpStatus.OK)
     @UseGuards(AccessTokenGuard)
     @Post(":playlistId/track/:songExternalId")
@@ -46,7 +56,7 @@ export class PlaylistsController {
         @Param("playlistId") playlistId: string,
         @Param("songExternalId") songExternalId: string
     ) {
-        return this.playlistsService.addSong(
+        return this.tracksService.addSong(
             req.user.sub,
             playlistId,
             songExternalId
@@ -61,16 +71,10 @@ export class PlaylistsController {
         @Param("playlistId") playlistId: string,
         @Param("playlistTrackId") playlistTrackId: number
     ) {
-        return this.playlistsService.removeSong(
+        return this.tracksService.removeSong(
             req.user.sub,
             playlistId,
             playlistTrackId
         );
-    }
-
-    @UseGuards(AccessTokenGuard)
-    @Delete(":id")
-    remove(@Req() req, @Param("id") id: string) {
-        return this.playlistsService.remove(req.user.sub, id);
     }
 }

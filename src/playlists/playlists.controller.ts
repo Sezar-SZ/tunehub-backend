@@ -27,6 +27,12 @@ export class PlaylistsController {
         return await this.playlistsService.create(req.user.sub, dto);
     }
 
+    @Get()
+    @UseGuards(AccessTokenGuard)
+    async findAllByUser(@Req() req) {
+        return await this.playlistsService.findAllByUser(req.user.sub);
+    }
+
     @Get(":id")
     findOne(@Param("id") id: string) {
         return this.playlistsService.findOne(id);

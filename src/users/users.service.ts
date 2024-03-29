@@ -66,4 +66,15 @@ export class UsersService {
     async removeRefreshToken(userId: number, refreshToken: string) {
         await this.redis.del(`user${userId}:${refreshToken}`);
     }
+
+    async findLikes(userId: number) {
+        return await this.prisma.likePlaylist.findMany({
+            where: {
+                userId,
+            },
+            include: {
+                playlist: true,
+            },
+        });
+    }
 }

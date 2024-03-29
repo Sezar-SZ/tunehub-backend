@@ -15,13 +15,15 @@ import { ZodValidationPipe } from "src/validators/zod.validator";
 import { PlaylistsService } from "./playlists.service";
 import { CreatePlaylistDto, createPlaylistSchema } from "./dto/create";
 import { AccessTokenGuard } from "src/auth/guards/accessToken.guard";
-import { TracksService } from "src/tracks/tracks.service";
+import { PlaylistTracksService } from "./playlistTracks.service";
+import { PlaylistLikesService } from "./playlistLikes.service";
 
 @Controller("playlists")
 export class PlaylistsController {
     constructor(
         private readonly playlistsService: PlaylistsService,
-        private readonly tracksService: TracksService
+        private readonly tracksService: PlaylistTracksService,
+        private readonly likeService: PlaylistLikesService
     ) {}
 
     @Post()
@@ -76,5 +78,19 @@ export class PlaylistsController {
             playlistId,
             playlistTrackId
         );
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(AccessTokenGuard)
+    @Post(":playlistId/like/")
+    addLike(@Req() req, @Param("playlistId") playlistId: string) {
+        return this.likeService.addLike(req.user.sub, playlistId);
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(AccessTokenGuard)
+    @Delete(":playlistId/like")
+    removeLike(@Req() req, @Param("playlistId") playlistId: string) {
+        return this.likeService.removeLike(req.user.sub, playlistId);
     }
 }

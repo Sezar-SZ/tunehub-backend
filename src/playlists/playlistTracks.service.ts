@@ -3,7 +3,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { SongsService } from "src/songs/songs.service";
 
 @Injectable()
-export class TracksService {
+export class PlaylistTracksService {
     constructor(
         private prismaService: PrismaService,
         private songService: SongsService

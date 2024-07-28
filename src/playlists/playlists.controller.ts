@@ -17,7 +17,10 @@ import { CreatePlaylistDto, createPlaylistSchema } from "./dto/create";
 import { AccessTokenGuard } from "src/auth/guards/accessToken.guard";
 import { PlaylistTracksService } from "./playlistTracks.service";
 import { PlaylistLikesService } from "./playlistLikes.service";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Auth")
+@ApiTags("playlists")
 @Controller("playlists")
 export class PlaylistsController {
     constructor(

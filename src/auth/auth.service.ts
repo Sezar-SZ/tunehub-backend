@@ -8,8 +8,7 @@ import * as bcrypt from "bcrypt";
 import { Response } from "express";
 import { JwtService } from "@nestjs/jwt";
 import { UsersService } from "../users/users.service";
-import { LoginDto } from "./dto";
-import { CreateUserDto } from "src/users/dto";
+import { LoginDto, RegisterDto } from "./dto";
 import { ConfigService } from "@nestjs/config";
 import { refreshExpireDate } from "src/utils";
 import { RedisService } from "src/redis/redis.service";
@@ -23,7 +22,7 @@ export class AuthService {
         private redisService: RedisService
     ) {}
 
-    async register(createUserDto: CreateUserDto, response: Response) {
+    async register(createUserDto: RegisterDto, response: Response) {
         try {
             const newUser = await this.userService.create(createUserDto);
             const tokens = await this.getTokens(newUser.id, newUser.email);

@@ -13,12 +13,12 @@ import {
 } from "@nestjs/common";
 import { Response } from "express";
 import { AuthService } from "./auth.service";
-import { ZodValidationPipe } from "src/validators/zod.validator";
-import { LoginDto, loginSchema } from "./dto";
+// import { ZodValidationPipe } from "src/validators/zod.validator";
+import { ZodValidationPipe } from "@wahyubucil/nestjs-zod-openapi";
+import { LoginDto, RegisterDto } from "./dto";
 import { Role } from "@prisma/client";
 import { Roles } from "./decorators/roles.decorator";
 import { RolesGuard } from "./guards/roles.guard";
-import { CreateUserDto, createUserSchema } from "src/users/dto";
 import { AccessTokenGuard } from "./guards/accessToken.guard";
 
 @Controller("auth")
@@ -27,7 +27,7 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post("login")
-    @UsePipes(new ZodValidationPipe(loginSchema))
+    @UsePipes(ZodValidationPipe)
     async login(
         @Body() loginDto: LoginDto,
         @Res({ passthrough: true }) response: Response
@@ -36,9 +36,9 @@ export class AuthController {
     }
 
     @Post("register")
-    @UsePipes(new ZodValidationPipe(createUserSchema))
+    @UsePipes(ZodValidationPipe)
     register(
-        @Body() createUserDto: CreateUserDto,
+        @Body() createUserDto: RegisterDto,
         @Res({ passthrough: true }) response: Response
     ) {
         return this.authService.register(createUserDto, response);

@@ -38,6 +38,8 @@ export class AuthService {
             });
             return { accessToken: tokens.accessToken };
         } catch (error) {
+            console.log(error);
+
             if (error.response) throw new UnauthorizedException(error.response);
             throw new InternalServerErrorException(error);
         }

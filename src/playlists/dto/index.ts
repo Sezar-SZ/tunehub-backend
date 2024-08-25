@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const PlaylistModel = z.object({
-    id: z.number().int(),
+    id: z.string().nanoid(),
     name: z.string(),
     published: z.boolean(),
 });

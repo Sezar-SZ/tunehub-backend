@@ -10,16 +10,22 @@ import {
     Req,
     HttpCode,
     HttpStatus,
+    Put,
 } from "@nestjs/common";
 import { ZodValidationPipe } from "src/validators/zod.validator";
 import { PlaylistsService } from "./playlists.service";
-import { CreatePlaylistDto, createPlaylistSchema } from "./dto/create";
+import {
+    CreatePlaylistDto,
+    createPlaylistSchema,
+    UpdatePlaylistSchema,
+    updatePlaylistSchema,
+} from "./dto/create";
 import { AccessTokenGuard } from "src/auth/guards/accessToken.guard";
 import { PlaylistTracksService } from "./playlistTracks.service";
 import { PlaylistLikesService } from "./playlistLikes.service";
 import { ApiTags } from "@nestjs/swagger";
 
-@ApiTags("Auth")
+@ApiTags("Playlists")
 @ApiTags("playlists")
 @Controller("playlists")
 export class PlaylistsController {
@@ -34,6 +40,13 @@ export class PlaylistsController {
     @UsePipes(new ZodValidationPipe(createPlaylistSchema))
     async create(@Req() req, @Body() dto: CreatePlaylistDto) {
         return await this.playlistsService.create(req.user.sub, dto);
+    }
+
+    @Put()
+    @UseGuards(AccessTokenGuard)
+    @UsePipes(new ZodValidationPipe(updatePlaylistSchema))
+    async update(@Req() req, @Body() dto: UpdatePlaylistSchema) {
+        return await this.playlistsService.update(req.user.sub, dto);
     }
 
     @Get()

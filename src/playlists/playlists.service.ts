@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreatePlaylistDto } from "./dto/create";
+import { CreatePlaylistDto, UpdatePlaylistSchema } from "./dto/create";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
@@ -12,6 +12,18 @@ export class PlaylistsService {
                 published: dto.published,
                 creatorId: userId,
             },
+        });
+        return playlist;
+    }
+
+    async update(userId: number, dto: UpdatePlaylistSchema) {
+        const { id, ...data } = dto;
+        const playlist = await this.prismaService.playlist.updateMany({
+            where: {
+                id: dto.id,
+                creatorId: userId,
+            },
+            data,
         });
         return playlist;
     }

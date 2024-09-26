@@ -11,6 +11,17 @@ export class PlaylistTracksService {
 
     async addSong(userId: number, playlistId: string, songExternalId: string) {
         const song = await this.songService.create(songExternalId);
+        const playlist = await this.prismaService.playlist.findUnique({
+            where: {
+                id: playlistId,
+                creatorId: userId,
+            },
+        });
+
+        if (!playlist) {
+            throw new Error("Playlist not found");
+        }
+
         await this.prismaService.playlist.update({
             where: {
                 id: playlistId,

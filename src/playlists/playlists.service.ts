@@ -42,7 +42,7 @@ export class PlaylistsService {
                 },
             },
         });
-        return playlists;
+        return { userId, ...playlists };
     }
 
     async findOne(id: string) {

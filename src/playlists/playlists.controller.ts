@@ -26,7 +26,6 @@ import { PlaylistLikesService } from "./playlistLikes.service";
 import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Playlists")
-@ApiTags("playlists")
 @Controller("playlists")
 export class PlaylistsController {
     constructor(
